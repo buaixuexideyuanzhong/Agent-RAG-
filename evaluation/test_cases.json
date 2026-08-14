@@ -1,0 +1,138 @@
+{
+  "description": "活动策划系统质量评估集：每条测试需求标注期望约束真值（expected_constraints），用于计算需求提取准确率与方案层约束召回/准确率。",
+  "cases": [
+    {
+      "id": "case_01",
+      "request": "帮我策划一个500人的公司年会，预算20万，地点在北京朝阳，时间是下个月中旬",
+      "expected_constraints": {
+        "activity_type": "年会",
+        "attendee_count": 500,
+        "budget": 200000,
+        "city": "北京",
+        "preferred_area": "朝阳"
+      },
+      "notes": "信息完整的标准用例"
+    },
+    {
+      "id": "case_02",
+      "request": "策划一个200人的产品发布会，预算50万，上海浦东，需要高端场地",
+      "expected_constraints": {
+        "activity_type": "发布会",
+        "attendee_count": 200,
+        "budget": 500000,
+        "city": "上海",
+        "preferred_area": "浦东"
+      },
+      "notes": "高端场地隐含需求"
+    },
+    {
+      "id": "case_03",
+      "request": "组织一场100人的客户答谢会，预算10万，广州天河，注重用户体验",
+      "expected_constraints": {
+        "activity_type": "答谢会",
+        "attendee_count": 100,
+        "budget": 100000,
+        "city": "广州",
+        "preferred_area": "天河"
+      },
+      "notes": "用户体验强调"
+    },
+    {
+      "id": "case_04",
+      "request": "安排一个300人的培训会，预算15万，深圳南山，需要完善的设备",
+      "expected_constraints": {
+        "activity_type": "培训会",
+        "attendee_count": 300,
+        "budget": 150000,
+        "city": "深圳",
+        "preferred_area": "南山"
+      },
+      "notes": "设备要求"
+    },
+    {
+      "id": "case_05",
+      "request": "帮我策划一个活动",
+      "expected_constraints": {},
+      "notes": "信息缺失：期望系统引导补全，不编造具体约束"
+    },
+    {
+      "id": "case_06",
+      "request": "策划一个户外产品发布会，需要无人机表演和现场直播",
+      "expected_constraints": {
+        "activity_type": "发布会",
+        "special_requirements": ["户外", "无人机表演", "现场直播"]
+      },
+      "notes": "特殊需求列表"
+    },
+    {
+      "id": "case_07",
+      "request": "办一个20人的高端私密商务晚宴，预算3万，上海黄浦区",
+      "expected_constraints": {
+        "activity_type": "晚宴",
+        "attendee_count": 20,
+        "budget": 30000,
+        "city": "上海",
+        "preferred_area": "黄浦"
+      },
+      "notes": "小规模、高单价"
+    },
+    {
+      "id": "case_08",
+      "request": "组织一场2000人的企业运动会开幕式，预算100万，北京",
+      "expected_constraints": {
+        "activity_type": "运动会",
+        "attendee_count": 2000,
+        "budget": 1000000,
+        "city": "北京"
+      },
+      "notes": "大规模"
+    },
+    {
+      "id": "case_09",
+      "request": "办一个300人的技术峰会，预算只有5万，成都，尽量控制成本",
+      "expected_constraints": {
+        "activity_type": "峰会",
+        "attendee_count": 300,
+        "budget": 50000,
+        "city": "成都"
+      },
+      "notes": "预算敏感、成本控制"
+    },
+    {
+      "id": "case_10",
+      "request": "下周五就要办一场200人的团队建设活动，预算8万，时间很紧",
+      "expected_constraints": {
+        "activity_type": "团建",
+        "attendee_count": 200,
+        "budget": 80000,
+        "time": "下周五"
+      },
+      "notes": "强时间约束、紧急"
+    },
+    {
+      "id": "case_11",
+      "request": "策划一场圣诞节主题的客户答谢会，150人，预算12万，深圳福田区",
+      "expected_constraints": {
+        "activity_type": "答谢会",
+        "attendee_count": 150,
+        "budget": 120000,
+        "city": "深圳",
+        "preferred_area": "福田",
+        "theme": "圣诞节"
+      },
+      "notes": "主题明确"
+    },
+    {
+      "id": "case_12",
+      "request": "办一场科技感十足的400人公司年会，需要AR互动和机器人主持，预算30万，杭州",
+      "expected_constraints": {
+        "activity_type": "年会",
+        "attendee_count": 400,
+        "budget": 300000,
+        "city": "杭州",
+        "special_requirements": ["AR互动", "机器人主持"]
+      },
+      "notes": "科技主题 + 多项特殊需求"
+    }
+  ]
+}

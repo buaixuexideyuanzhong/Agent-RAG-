@@ -1,0 +1,13 @@
+# backend/Dockerfile 的构建上下文是项目根，这里排除不必要文件
+**/__pycache__/
+**/*.py[cod]
+**/.pytest_cache/
+.git
+.env
+frontend/node_modules
+frontend/dist
+evaluation/
+activity_planner.log
+*.log
+test_workflow.py
+sample_cases.json

@@ -1,0 +1,16 @@
+{
+  "case_count": 12,
+  "success_cases": 12,
+  "extraction_accuracy": 0.78,
+  "constraint_recall": 0.92,
+  "constraint_precision": 0.979,
+  "tool_hit_rate": 1.0,
+  "structure_completeness": 1.0,
+  "quality_scores": {
+    "完整性": 5.0,
+    "可执行性": 5.0,
+    "预算合规": 4.08,
+    "逻辑一致": 4.75,
+    "信息真实": 4.83
+  }
+}

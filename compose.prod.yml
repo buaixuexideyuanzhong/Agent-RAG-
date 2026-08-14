@@ -1,0 +1,57 @@
+# ============================================================
+# 生产部署编排：Nginx 负载均衡 + 多 worker 后端 + 前端静态托管
+# ============================================================
+# 与 docker-compose.yml 同项目名（huodongcehua）共享同一网络：
+#   - 直接复用已运行的基础设施容器（redis/mysql/etcd/minio/milvus），不重复启动、不占宿主端口
+#   - 后端容器内用服务名访问基础设施（mysql/redis/milvus）
+#
+# 使用（前置：基础设施已起 + 前端已构建）：
+#   docker compose up -d                    # 起基础设施（如未起）
+#   cd frontend && npm run build            # 构建前端静态产物到 frontend/dist
+#   docker compose -f compose.prod.yml up -d --build
+#   访问 http://localhost:8080
+#
+# 横向扩容后端副本（nginx 自动轮询，见 deploy/nginx/nginx.conf）：
+#   docker compose -f compose.prod.yml up -d --scale backend=3
+# ============================================================
+
+name: huodongcehua
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: huodongcehua-backend:latest
+    # 宿主 .env 的全部 key 注入容器（API key / HF_ENDPOINT / DB 凭据…）
+    env_file:
+      - .env
+    environment:
+      # 容器内必须用服务名访问基础设施（覆盖 .env 里的 localhost）
+      DB_HOST: mysql
+      REDIS_URL: redis://redis:6379/0
+      VECTOR_DB_URL: http://milvus:19530
+    # 单节点多 worker 并行；每 worker 各载一份 BGE 模型，注意内存
+    #（镜像内 .env 的 DB_PORT 等无需改，DB_HOST 由上面覆盖）
+    command: uvicorn backend.api.app:app --host 0.0.0.0 --port 8000 --workers ${UVICORN_WORKERS:-2}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request;urllib.request.urlopen('http://127.0.0.1:8000/api/v1/health',timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  nginx:
+    build:
+      context: deploy/nginx
+    image: huodongcehua-nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      # 前端构建产物挂载进 nginx（重新 npm run build 后 reload 即可更新）
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
